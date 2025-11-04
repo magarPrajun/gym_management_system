@@ -2,6 +2,7 @@
 import java.util.Scanner;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.regex.*;
 
 // Gym class to provide text based interface for gym management system
 public class Gym {
@@ -36,13 +37,25 @@ public class Gym {
             try{
                 // user's choice according to the options
                 int choice = keyboardInput.nextInt();
+
                     switch (choice) {
                         case 1:
                             //TODO:Implementation of logic to load data.
                             break;
                         case 2:
-                            // option to register new member
-                            manager.registerMembership();
+                            // checking and clearing the buffer before accepting string input
+                            if(keyboardInput.hasNextLine()){
+                                keyboardInput.nextLine();
+                            }
+                            
+                            // storing returned member object from member registration method
+                            Member member = memberRegistration();
+
+                            // registering member in the gym management system through manager
+                            manager.registerMembership(member);
+
+                            // adding member to the global member record list
+                            memberRecord.add(member);
                             break;
                         case 3:
                             // option to search for member's information
@@ -53,7 +66,7 @@ public class Gym {
                             break;
                         case 5:
                             // Membership termination option
-                            manager.terminateMembership();
+                            //manager.terminateMembership();
                             break;
                         case 6:
                             break;
@@ -66,17 +79,89 @@ public class Gym {
                     }
             }catch(Exception e){
                 System.out.println("\nInvalid input! Please enter corresponding numbers to execute.\n");
-                
-                // nextLine to consume and clear the invalid input for making it ready to accept another user's input.
-                keyboardInput.nextLine();
-             }
-
+                if (keyboardInput.hasNextLine()){
+                    keyboardInput.nextLine();
+                }
+           
         }
     }
-
-    public static void memberRegistration() {
-        System.out.println("");
         
+    }
+
+    // method to register new member in the gym
+    public static Member memberRegistration() {
+        String memberName;
+        String memberContact;
+        String memberEmail;
+        // member's name entry
+        while(true){
+            System.out.println("Enter member's Name: ");
+
+            memberName = keyboardInput.nextLine();
+
+            // checking for empty name
+            if(!memberName.isEmpty()){
+                break;
+            }
+            System.out.println("Member's name cannot be empty. Please enter a valid name.");
+           
+        }
+
+        // member's contact entry
+        while(true){
+            System.out.println("Enter member's contact:");
+    
+            memberContact = keyboardInput.nextLine();
+            
+            String contactRegex = "^(\\+[0-9]{3}-)?[0-9]{10}$";
+            
+            // checking for empty contact
+            if(memberContact.isEmpty()){
+                System.out.println("Member's contact cannot be empty. Please enter a valid contact.");
+                continue;
+            }
+
+            // validating contact format if not empty
+            if(Pattern.matches(contactRegex, memberContact)){
+                break;
+            }
+            System.out.println("Invalid contact number!");    
+        }
+
+        while(true){
+            System.out.println("Enter member's email:");
+    
+            memberEmail = keyboardInput.nextLine();
+            
+            String emailRegex = "^[a-zA-Z0-9.]+@[a-zA-Z]+(\\.[a-zA-Z]{2,3})+$";
+
+            // checking for empty email
+            if(memberEmail.isEmpty()){
+                System.out.println("Member's email cannot be empty. Please enter a valid email.");
+                continue;
+            }
+            
+            // validating email format
+            if(Pattern.matches(emailRegex, memberEmail)){
+                break;
+            }
+            System.out.println("Invalid email format!");
+            
+        }
+    
+            System.out.println("Is the member a Premium member? (Y/N):");
+
+            String memberType = keyboardInput.nextLine().toUpperCase();
+
+            // Premium member registration if user input is 'Y' or 'YES
+            if("Y".equals(memberType) || "YES".equals(memberType) ){
+                Member newMember = new PremiumMember(memberName, memberContact, memberEmail);
+                return newMember;
+            }
+
+            // Regualr member registration as default option
+            Member newMember = new RegularMember(memberName, memberContact, memberEmail);
+            return newMember;
     }
 
     // starting point of a system
@@ -91,6 +176,6 @@ public class Gym {
         System.out.println("\n=============| Welcome to Gym Management System |=============\n");
         
         // calling interface option method to provide options to user
-        Gym.interfaceOption(manager);
+        interfaceOption(manager);
     }
 }

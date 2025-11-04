@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * Static method -> common method for members
 
  */
-abstract class Member{
+public abstract class Member{
 	public int memberId;
 	private String memberName;
 	private String memberContact;
@@ -19,7 +19,7 @@ abstract class Member{
 		this.memberName = name;
 		this.memberContact = contact;
 		this.memberEmail = email;
-		this.performanceRecord = new LinkedList<Performance>(); 
+		this.performanceRecord = new LinkedList<>(); 
 	}
 	
 	
@@ -46,7 +46,7 @@ abstract class Member{
 	/* method to compute monthly fee for membership and other services.
 	* implementation of this method is different according to the sub classes.
 	*/
-	abstract void computeMonthlyFee();
+	public abstract void computeMonthlyFee();
 	
 	public void recordMonthlyPerformance() {
 		performanceRecord.add(new Performance());
@@ -56,6 +56,7 @@ abstract class Member{
 	 * toString() method override.
 	 * returns member's overall details. 
 	 */
+	@Override
 	public String toString() {
 		return "Member ID:"+this.memberId+"\nName:"+this.memberName+"\nContact:"+this.memberContact+"\nEmail:"+this.memberEmail;
 	}

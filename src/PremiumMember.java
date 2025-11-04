@@ -5,7 +5,7 @@ public class PremiumMember extends Member{
 	}
 
 	@Override
-	void computeMonthlyFee() {
+	public void computeMonthlyFee() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,7 +8,7 @@ public class Manager{
 	
 	// constructor for initializing member record
 	public Manager() {
-		memberRecord = new LinkedList<Member>();
+		memberRecord = new LinkedList<>();
 	}
 	
 	// register member in the gym 

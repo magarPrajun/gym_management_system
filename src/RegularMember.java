@@ -6,7 +6,7 @@ public class RegularMember extends Member{
 	}
 	
 	@Override
-	void computeMonthlyFee() {
+	public void computeMonthlyFee() {
 		RegularMember.getBaseRate();
 	}
 	

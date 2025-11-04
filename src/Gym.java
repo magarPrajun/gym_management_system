@@ -8,7 +8,7 @@ import java.util.regex.*;
 public class Gym {
 
      // member record to store all the members' data
-    final static List<Member> memberRecord = new LinkedList<Member>();
+    final static List<Member> memberRecord = new LinkedList<>();
 
 
     // Scanner object creation for accepting user's input
